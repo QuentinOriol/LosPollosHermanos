@@ -1,0 +1,21 @@
+function ObtenirIDUser($UserName, $Cnn)
+            {
+                $query = "SELECT id_user FROM utilisateurs WHERE login_user = '".$UserName."'";
+                $id = pg_query($Cnn, $query)
+                return $id;
+            }
+            //A changer seulement pour test de message
+            $connexionBDD = pg_connect("host=51.254.118.235 dbname=chat_bdd user=postgres password=postgres");
+            $idemetteur = ObtenirIDUser($UserName, $Cnn);
+            $idrecepteur = ObtenirIDUser($UserName, $Cnn);
+            $AfficherListeMessage = "SELECT id_message, contenu, utilisateurs.login_user, date_time 
+                            FROM messages, utilisateurs
+                            WHERE id_emetteur = utilisateurs.id_user AND id_emetteur = '".$idemetteur."' AND id_recepteur = '".$idrecepteur."' 
+                            OR id_emetteur = utilisateurs.id_user AND id_emetteur = '".$idemetteur."' AND id_recepteur = '".$idrecepteur."' 
+                            ORDER BY date_time ASC";
+            
+            $result = pg_query($connexionBDD, $AfficherListeMessage) or die("Requête échouée !");
+            while($data = pg_fetch_array($result))
+            {
+                echo $data['login_user']." : ".$data['contenu']."</br></br>";
+            }
