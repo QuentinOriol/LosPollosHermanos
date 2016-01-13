@@ -17,5 +17,5 @@ function ObtenirIDUser($UserName, $Cnn)
             $result = pg_query($connexionBDD, $AfficherListeMessage) or die("Requête échouée !");
             while($data = pg_fetch_array($result))
             {
-                echo $data['login_user']." : ".$data['contenu']."</br></br>";
+                echo $data['login_user']." : ".$data['contenu']."</br></br>";YOLO
             }
